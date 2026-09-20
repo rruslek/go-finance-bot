@@ -7,14 +7,17 @@ import (
 	"syscall"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/joho/godotenv"
+	"go-finance-bot/internal/config"
 )
 
 func main() {
-	godotenv.Load()
-	tg_token := os.Getenv("TELEGRAM_BOT_TOKEN")
+	conf, err := config.Load()
 
-	bot, err := tgbotapi.NewBotAPI(tg_token)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	bot, err := tgbotapi.NewBotAPI(conf.TelegramBotToken)
 	if err != nil {
 		log.Fatal(err)
 	}
